@@ -38,6 +38,7 @@ calculate= function(type){
         estadoOp= 0;
         operador= null;
     }
+    negativo= false;
     if(`${operando}`.indexOf(".") != -1){
         coma= true;
     }else{
