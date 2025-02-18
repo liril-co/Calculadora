@@ -65,7 +65,10 @@ clearButton.addEventListener("click", clear);
 
 numeros.forEach((numeroInstance)=>{
     numeroInstance.addEventListener("click", (e)=>{
-        if(clearOnNextEntry)operando= 0;
+        if(clearOnNextEntry){
+            operando= 0;
+            clearOnNextEntry= false;
+        }
         num= e.target.innerText
         operando= parseFloat(`${operando}${num}`)
         switch(estadoOp){
