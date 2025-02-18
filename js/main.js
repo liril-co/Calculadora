@@ -12,6 +12,7 @@ let clearOnNextEntry= false;
 let numero1= 0;
 let numero2= null;
 let operador= null;
+let negativo= false;
 let coma= false;
 calculate= function(type){
     switch(operador){
@@ -35,8 +36,9 @@ calculate= function(type){
         estadoOp= 1;
     }else{
         estadoOp= 0;
+        operador= null;
     }
-    if(`${operando}`.indexOf(".")){
+    if(`${operando}`.indexOf(".") != -1){
         coma= true;
     }else{
         coma= false;
@@ -56,6 +58,7 @@ updateOperacion= function(){
 }
 clearEntry= function(){
     operando= 0;
+    negativo= false;
     updateOperando()
 }
 clear= function(){
@@ -64,6 +67,7 @@ clear= function(){
     numero1= null;
     numero2= null;
     operador= null;
+    negativo= false;
     updateOperando();
     updateOperacion();
 }
@@ -85,7 +89,8 @@ numeros.forEach((numeroInstance)=>{
             }
             coma= true;
         }else{
-            operando= parseFloat(`${operando}${num}`)
+            let operandoAbsoluto= `${operando}`.replace("-", "")
+            operando= parseFloat(`${negativo?"-":""}${operandoAbsoluto}${num}`)
         }
         switch(estadoOp){
             case 0:
@@ -101,6 +106,16 @@ numeros.forEach((numeroInstance)=>{
 operadores.forEach((operadorInstance)=>{
     operadorInstance.addEventListener("click", (e)=>{
         ope= e.target.innerText
+        if(ope == "-"){
+            if(numero2 == null && numero1 == 0){
+                negativo= !negativo;
+                return;
+            }else if(operador != null && numero2 == null){
+                negativo= !negativo;
+                return
+            }
+        }
+        negativo= false;
         switch(estadoOp){
             case 0:
                 operacion= `${operando} ${ope}`
