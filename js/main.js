@@ -11,7 +11,8 @@ let estadoOp= 0;
 let clearOnNextEntry= false;
 let numero1= null;
 let numero2= null;
-let operador= null
+let operador= null;
+let coma= false;
 calculate= function(type){
     switch(operador){
         case "+":
@@ -35,12 +36,18 @@ calculate= function(type){
     }else{
         estadoOp= 0;
     }
+    if(`${operando}`.indexOf(".")){
+        coma= true;
+    }else{
+        coma= false;
+    }
     numero2= null;
 }
 updateOperando= function(overwrite){
     if(typeof overwrite != "undefined"){
-        numero1= overwrite;
-        operando= overwrite;
+        numero1= parseFloat(overwrite);
+        operando= parseFloat(overwrite);
+        console.log(operando)
     }
     operandoInput.value= operando;
 }
@@ -70,7 +77,16 @@ numeros.forEach((numeroInstance)=>{
             clearOnNextEntry= false;
         }
         num= e.target.innerText
-        operando= parseFloat(`${operando}${num}`)
+        if(num == "."){
+            if(coma){
+                operando= `${operando}`.replaceAll(".", "") + "."
+            }else{
+                operando= `${operando}` + "."
+            }
+            coma= true;
+        }else{
+            operando= parseFloat(`${operando}${num}`)
+        }
         switch(estadoOp){
             case 0:
                 numero1= operando;
@@ -102,6 +118,7 @@ operadores.forEach((operadorInstance)=>{
         }
         clearOnNextEntry= true;
         updateOperacion();
+        coma= false
     })
 })
 resultadoButton.addEventListener("click", (e)=>{
