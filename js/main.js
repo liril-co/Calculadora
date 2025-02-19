@@ -34,11 +34,12 @@ calculate= function(type){
         operacion= `${operando} ${operador}`
         updateOperacion()
         estadoOp= 1;
+        negativo= false
     }else{
         estadoOp= 0;
         operador= null;
+        negativo= `${operando}`.indexOf("-") == -1?false:true;
     }
-    negativo= `${operando}`.indexOf("-") == -1?false:true;
     if(`${operando}`.indexOf(".") != -1){
         coma= true;
     }else{
