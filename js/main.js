@@ -17,7 +17,7 @@ let coma= false;
 calculate= function(type){
     switch(operador){
         case "+":
-            updateOperando(numero1 + numero2)
+            updateOperando(parseFloat(numero1) + parseFloat(numero2))
             break;
         case "-":
             updateOperando(numero1 - numero2)
@@ -84,14 +84,14 @@ numeros.forEach((numeroInstance)=>{
         num= e.target.innerText
         if(num == "."){
             if(coma){
-                operando= `${operando}`.replaceAll(".", "") + "."
+                operando= `${operando}`.replaceAll(".", "").replace(/^0+(?=\d)/, "") + "."
             }else{
-                operando= `${operando}` + "."
+                operando= `${operando}`.replace(/^0+(?=\d)/, "") + "."
             }
             coma= true;
         }else{
             let operandoAbsoluto= `${operando}`.replace("-", "")
-            operando= parseFloat(`${negativo?"-":""}${operandoAbsoluto}${num}`)
+            operando=( negativo?"-":"") + `${operandoAbsoluto}${num}`.replace(/^0+(?=\d)/, "")
         }
         switch(estadoOp){
             case 0:
